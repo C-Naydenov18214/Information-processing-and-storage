@@ -7,13 +7,14 @@ import javax.xml.stream.XMLStreamReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class XmlParser {
-
+    public static List<Person> persons = new ArrayList<>(20000);
 
     public static void parse() throws FileNotFoundException, XMLStreamException {
 
-        ArrayList<Person> persons = new ArrayList<>(20000);
+
         Person curPerson = null;
         String tagContent = null;
         XMLInputFactory factory = XMLInputFactory.newInstance();
