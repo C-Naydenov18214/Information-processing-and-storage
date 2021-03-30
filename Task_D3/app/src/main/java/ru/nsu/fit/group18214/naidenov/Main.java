@@ -7,6 +7,7 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException, XMLStreamException {
         XmlParser.parse();
         DatabaseProvider.connect();
+        //DatabaseProvider.clearTable("persons");
         DatabaseProvider.insertValues(XmlParser.persons);
         DatabaseProvider.closeConnection();
     }
