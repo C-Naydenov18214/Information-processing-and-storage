@@ -4,7 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8529b49e-03fa-48e1-9907-76eed6de918a" name="Default Changelist" comment="" />
+    <list default="true" id="8529b49e-03fa-48e1-9907-76eed6de918a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3c2a5005-df01-4fc5-b9ca-4dbafcbf698b.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3c2a5005-df01-4fc5-b9ca-4dbafcbf698b/storage_v2/_src_/database/Task_D2.SCWYBw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3c2a5005-df01-4fc5-b9ca-4dbafcbf698b/storage_v2/_src_/database/Task_D2.SCWYBw/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3c2a5005-df01-4fc5-b9ca-4dbafcbf698b/storage_v2/_src_/database/Task_D2.SCWYBw/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3c2a5005-df01-4fc5-b9ca-4dbafcbf698b/storage_v2/_src_/database/Task_D2.SCWYBw/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/XmlParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/XmlParser.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -75,16 +86,41 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration default="true" type="ClojureREPL" factoryName="Local" activateToolWindowBeforeRun="false">
+      <setting name="displayName" value="" />
+      <setting name="replType" value="NREPL" />
+      <setting name="execution" value="LEININGEN" />
+      <setting name="jvmArgs" value="" />
+      <setting name="parameters" value="" />
+      <setting name="workingDir" value="" />
+      <setting name="profiles" value="" />
+      <setting name="aliases" value="" />
+      <setting name="fixLineNumbers" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="ClojureREPL" factoryName="Remote" activateToolWindowBeforeRun="false">
+      <setting name="displayName" value="" />
+      <setting name="host" value="" />
+      <setting name="port" value="0" />
+      <setting name="replType" value="SOCKET" />
+      <setting name="configType" value="SPECIFY" />
+      <setting name="replPortFileType" value="STANDARD" />
+      <setting name="customPortFile" value="" />
+      <setting name="fixLineNumbers" value="false" />
+      <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
@@ -105,6 +141,7 @@
       <workItem from="1617029470026" duration="62000" />
       <workItem from="1617030789059" duration="2854000" />
       <workItem from="1617114958958" duration="2350000" />
+      <workItem from="1617182738755" duration="3233000" />
     </task>
     <servers />
   </component>

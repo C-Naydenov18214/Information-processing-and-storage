@@ -4,24 +4,34 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class XmlParser {
     public static List<Person> persons = new ArrayList<>(20000);
 
-    public static void parse() throws FileNotFoundException, XMLStreamException {
+    public static void parse(long seek) throws FileNotFoundException, XMLStreamException {
 
 
         Person curPerson = null;
         String tagContent = null;
-        XMLInputFactory factory = XMLInputFactory.newInstance();
-        XMLStreamReader reader =
-                factory.createXMLStreamReader(
-                        new FileInputStream("output.xml"));
 
+        File file = new File("output.xml");
+        FileInputStream source = new FileInputStream(file);
+        try {
+            source.skip(seek);
+        } catch (IOException ex){
+            System.out.println(ex.getMessage());
+            return;
+        }
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+
+        XMLStreamReader reader =
+                factory.createXMLStreamReader(source);
         while (reader.hasNext()) {
             int event = reader.next();
 

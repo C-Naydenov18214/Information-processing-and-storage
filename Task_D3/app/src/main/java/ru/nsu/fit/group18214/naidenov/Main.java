@@ -5,9 +5,10 @@ import java.io.FileNotFoundException;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException, XMLStreamException {
-        XmlParser.parse();
+
         DatabaseProvider.connect();
-        //DatabaseProvider.clearTable("persons");
+        DatabaseProvider.clearTable("persons");
+        XmlParser.parse(0);
         DatabaseProvider.insertValues(XmlParser.persons);
         DatabaseProvider.closeConnection();
     }
