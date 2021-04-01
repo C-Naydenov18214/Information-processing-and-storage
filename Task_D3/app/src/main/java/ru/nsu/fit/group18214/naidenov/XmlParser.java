@@ -7,14 +7,13 @@ import javax.xml.stream.XMLStreamReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class XmlParser {
-    public static List<Person> persons = new ArrayList<>(200);
+    public static List<Person> persons = new ArrayList<>(DatabaseProvider.BATCH_SIZE*3);
 
-    public static void parse(Master master) throws FileNotFoundException, XMLStreamException {
+    public static void parse(Source master) throws FileNotFoundException, XMLStreamException {
 
 
         Person curPerson = null;
@@ -47,7 +46,7 @@ public class XmlParser {
                     switch (contentTeg) {
                         case "person":
                             persons.add(curPerson);
-                            if (persons.size() == 200) {
+                            if (persons.size() == DatabaseProvider.BATCH_SIZE) {
                                 try {
                                     master.addPersons(persons);
                                 } catch (InterruptedException ex) {

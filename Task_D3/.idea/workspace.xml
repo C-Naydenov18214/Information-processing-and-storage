@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8529b49e-03fa-48e1-9907-76eed6de918a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/DatabaseProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/DatabaseProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Person.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Worker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/XmlParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/XmlParser.java" afterDir="false" />
-    </list>
+    <list default="true" id="8529b49e-03fa-48e1-9907-76eed6de918a" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -71,36 +64,13 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="extract.method.default.visibility" value="private" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="RunManager">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="ru.nsu.fit.group18214.naidenov.Main" />
-      <module name="Task_D3.app.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ru.nsu.fit.group18214.naidenov.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="ClojureREPL" factoryName="Local" activateToolWindowBeforeRun="false">
       <setting name="displayName" value="" />
       <setting name="replType" value="NREPL" />
@@ -124,14 +94,26 @@
       <setting name="fixLineNumbers" value="false" />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-      <option name="AUTO_RESTART" value="false" />
-      <method v="2" />
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ru.nsu.fit.group18214.naidenov.Main" />
+      <module name="Task_D3.app.main" />
+      <option name="PROGRAM_PARAMETERS" value="5" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <recent_temporary>
       <list>
@@ -156,6 +138,7 @@
       <workItem from="1617251760924" duration="2904000" />
       <workItem from="1617255460662" duration="5041000" />
       <workItem from="1617264110230" duration="7321000" />
+      <workItem from="1617278538837" duration="4673000" />
     </task>
     <servers />
   </component>
@@ -175,33 +158,11 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/DatabaseProvider.java</url>
-          <line>79</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/DatabaseProvider.java</url>
-          <line>101</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Main.java</url>
-          <line>21</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Main.java</url>
-          <line>11</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="GradleRunConfiguration">
         <watch expression="((BatchUpdateException)ex).next" language="JAVA" custom="java.sql.BatchUpdateException" />
+        <watch expression="((String)((PSQLException)((BatchUpdateException)ex).next).detailMessage).value" custom="java.lang.String,org.postgresql.util.PSQLException" />
+        <watch expression="person" />
       </configuration>
     </watches-manager>
   </component>

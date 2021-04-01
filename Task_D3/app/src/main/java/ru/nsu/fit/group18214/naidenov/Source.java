@@ -1,13 +1,11 @@
 package ru.nsu.fit.group18214.naidenov;
 
-import java.sql.Time;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.concurrent.*;
 
-public class Master {
+public class Source {
     private final BlockingQueue<Person> persons = new LinkedBlockingQueue<>();
-    private final List<Person> newPersons = new ArrayList<>();
     private boolean xmlEnded = false;
 
 

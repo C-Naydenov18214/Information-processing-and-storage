@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Worker implements Runnable {
-    private Master master;
+    private Source source;
     private DatabaseProvider databaseProvider;
     private List<Person> persons;
 
 
-    public Worker(Master master) {
-        this.master = master;
+    public Worker(Source source) {
+        this.source = source;
         databaseProvider = new DatabaseProvider();
-        persons = new ArrayList<>();
+        persons = new ArrayList<>(DatabaseProvider.BATCH_SIZE / 2);
     }
 
     @Override
@@ -21,12 +21,12 @@ public class Worker implements Runnable {
         Person tmp;
         while (true) {
             try {
-                tmp = master.getPerson();
+                tmp = source.getPerson();
             } catch (InterruptedException e) {
                 break;
             }
             persons.add(tmp);
-            if (persons.size() == 50) {
+            if (persons.size() == DatabaseProvider.BATCH_SIZE / 2) {
                 processData(persons);
                 persons.clear();
             }

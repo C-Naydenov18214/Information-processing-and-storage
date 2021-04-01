@@ -9,7 +9,8 @@ public class DatabaseProvider {
     private Connection connection;
     private static String insertPersons = "INSERT INTO persons(person_id,first_name,surname,gender) VALUES (?,?,?,?)";
     private static final String insertRelations = "INSERT INTO tableName (person_id, personType) VALUES (?,?)";
-    private static String deleteQuery = "DELETE FROM daughters";
+    private static String deleteAll = "TRUNCATE persons CASCADE";
+    public static final int BATCH_SIZE = 3000;
 
 
     public void connect() {
@@ -18,16 +19,15 @@ public class DatabaseProvider {
 
             System.out.println("Соединение с СУБД выполнено.");
         } catch (SQLException ex) {
-            ex.printStackTrace(); // обработка ошибок  DriverManager.getConnection
+            ex.printStackTrace();
             System.out.println("connection failure, try again");
         }
 
     }
 
-    public void clearTable(String tableName) {
+    public void clearTable() {
         try {
-            stmt = connection.prepareStatement(deleteQuery);
-            //stmt.setString(1, tableName);
+            stmt = connection.prepareStatement(deleteAll);
             stmt.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -52,7 +52,6 @@ public class DatabaseProvider {
 
         try {
             stmt = connection.prepareStatement(insertPersons);
-            //connection.setAutoCommit(false);
             for (Person person : persons) {
                 try {
                     stmt.setString(1, person.getId());
@@ -65,7 +64,6 @@ public class DatabaseProvider {
                 }
             }
             stmt.executeBatch();
-            //connection.commit();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -78,7 +76,6 @@ public class DatabaseProvider {
         query = query.replaceFirst("personType", personType);
         try {
             stmt = connection.prepareStatement(query);
-            //connection.setAutoCommit(false);
             for (String id : args) {
                 try {
                     stmt.setString(1, person);
@@ -89,9 +86,8 @@ public class DatabaseProvider {
                 }
             }
             stmt.executeBatch();
-            //connection.commit();
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println(table + " " + person);
 
         }
 
@@ -103,7 +99,6 @@ public class DatabaseProvider {
         query = query.replaceFirst("personType", personType);
         try {
             stmt = connection.prepareStatement(query);
-            //connection.setAutoCommit(false);
             try {
                 stmt.setString(1, person);
                 stmt.setString(2, arg);
@@ -112,7 +107,6 @@ public class DatabaseProvider {
                 System.out.println(ex.getMessage());
             }
             stmt.executeBatch();
-            //connection.commit();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
 

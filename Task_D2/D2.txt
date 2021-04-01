@@ -5,61 +5,53 @@ CREATE TABLE persons(
 	gender VARCHAR(6) NOT NULL
 );
 CREATE TABLE fathers(
-	father_id VARCHAR(7) NOT NULL,
+	person_id VARCHAR(7) NOT NULL,
 	child_id VARCHAR(7) NOT NULL,
-	PRIMARY KEY (father_id,child_id),
-	FOREIGN KEY (father_id) REFERENCES persons (person_id),
-	FOREIGN KEY (child_id) REFERENCES persons (person_id)
+	PRIMARY KEY (person_id,child_id),
+	FOREIGN KEY (person_id) REFERENCES persons (person_id)
 );
 CREATE TABLE mothers(
-	mother_id VARCHAR(7) NOT NULL,
+	person_id VARCHAR(7) NOT NULL,
 	child_id VARCHAR(7) NOT NULL,
-	PRIMARY KEY (mother_id,child_id),
-	FOREIGN KEY (mother_id) REFERENCES persons (person_id),
-	FOREIGN KEY (child_id) REFERENCES persons (person_id)
+	PRIMARY KEY (person_id,child_id),
+	FOREIGN KEY (person_id) REFERENCES persons (person_id)
 );
+
 CREATE TABLE brothers(
 	person_id VARCHAR(7) NOT NULL,
 	brother_id VARCHAR(7) NOT NULL,
 	PRIMARY KEY (person_id,brother_id),
-	FOREIGN KEY (person_id) REFERENCES persons (person_id),
-	FOREIGN KEY (brother_id) REFERENCES persons (person_id)
+	FOREIGN KEY (person_id) REFERENCES persons (person_id)
 );
 CREATE TABLE sisters(
 	person_id VARCHAR(7) NOT NULL,
 	sister_id VARCHAR(7) NOT NULL,
 	PRIMARY KEY (person_id,sister_id),
-	FOREIGN KEY (person_id) REFERENCES persons (person_id),
-	FOREIGN KEY (sister_id) REFERENCES persons (person_id)
+	FOREIGN KEY (person_id) REFERENCES persons (person_id)
 );
 CREATE TABLE sons(
 	person_id VARCHAR(7) NOT NULL,
 	son_id VARCHAR(7) NOT NULL,
 	PRIMARY KEY (person_id,son_id),
-	FOREIGN KEY (person_id) REFERENCES persons (person_id),
-	FOREIGN KEY (son_id) REFERENCES persons (person_id)
+	FOREIGN KEY (person_id) REFERENCES persons (person_id)
 );
 CREATE TABLE daughters(
 	person_id VARCHAR(7) NOT NULL,
 	daughter_id VARCHAR(7) NOT NULL,
 	PRIMARY KEY (person_id,daughter_id),
-	FOREIGN KEY (person_id) REFERENCES persons (person_id),
-	FOREIGN KEY (daughter_id) REFERENCES persons (person_id)
+	FOREIGN KEY (person_id) REFERENCES persons (person_id)
 );
 CREATE TABLE wifes(
 	person_id VARCHAR(7) NOT NULL,
 	wife_id VARCHAR(7) NOT NULL,
 	PRIMARY KEY (person_id,wife_id),
-	FOREIGN KEY (person_id) REFERENCES persons (person_id),
-	FOREIGN KEY (wife_id) REFERENCES persons (person_id)
+	FOREIGN KEY (person_id) REFERENCES persons (person_id)
 );
 CREATE TABLE husbands(
 	person_id VARCHAR(7) NOT NULL,
 	husband_id VARCHAR(7) NOT NULL,
 	PRIMARY KEY (person_id,husband_id),
-	FOREIGN KEY (person_id) REFERENCES persons (person_id),
-	FOREIGN KEY (husband_id) REFERENCES persons (person_id)
-);
+	FOREIGN KEY (person_id) REFERENCES persons (person_id)
 
 
 INSERT INTO persons(person_id,first_name,surname,gender)
