@@ -1,19 +1,18 @@
 package ru.nsu.fit.group18214.naidenov;
 
 import java.sql.*;
-import java.util.Arrays;
 import java.util.List;
 
 public class DatabaseProvider {
-    // Блок объявления констант
     public static final String DB_URL = "jdbc:postgresql://localhost:5432/Task_D3";
-    private static PreparedStatement stmt;
-    private static Connection connection;
-    private static String insertQuery = "INSERT INTO persons(person_id,first_name,surname,gender) VALUES (?,?,?,?)";
-    private static String deleteQuery = "DELETE FROM persons";
+    private PreparedStatement stmt;
+    private Connection connection;
+    private static String insertPersons = "INSERT INTO persons(person_id,first_name,surname,gender) VALUES (?,?,?,?)";
+    private static final String insertRelations = "INSERT INTO tableName (person_id, personType) VALUES (?,?)";
+    private static String deleteQuery = "DELETE FROM daughters";
 
 
-    public static void connect() {
+    public void connect() {
         try {
             connection = DriverManager.getConnection(DB_URL, "postgres", "123123");//соединениесБД
 
@@ -25,17 +24,17 @@ public class DatabaseProvider {
 
     }
 
-    public static void clearTable(String tableName) {
+    public void clearTable(String tableName) {
         try {
             stmt = connection.prepareStatement(deleteQuery);
-            //stmt.setString(1,tableName);
-            stmt.execute();
-        }catch (SQLException ex){
+            //stmt.setString(1, tableName);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
 
-    public static void closeConnection() {
+    public void closeConnection() {
         try {
             if (stmt != null) {
                 stmt.close();
@@ -49,22 +48,24 @@ public class DatabaseProvider {
 
     }
 
-    public static void insertValues(List<Person> persons) {
+    public void insertPersons(List<Person> persons) {
+
         try {
-            stmt = connection.prepareStatement(insertQuery);
-            connection.setAutoCommit(false);
+            stmt = connection.prepareStatement(insertPersons);
+            //connection.setAutoCommit(false);
             for (Person person : persons) {
                 try {
                     stmt.setString(1, person.getId());
                     stmt.setString(2, person.getFirstName());
                     stmt.setString(3, person.getLastName());
                     stmt.setString(4, person.getGender());
-                    stmt.executeUpdate();
+                    stmt.addBatch();
                 } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
+                    ex.printStackTrace();
                 }
             }
-            connection.commit();
+            stmt.executeBatch();
+            //connection.commit();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -72,7 +73,55 @@ public class DatabaseProvider {
 
     }
 
-    public static void badInsert() {
+    public void insertRelations(String table, String personType, String person, List<String> args) {
+        String query = insertRelations.replaceFirst("tableName", table);
+        query = query.replaceFirst("personType", personType);
+        try {
+            stmt = connection.prepareStatement(query);
+            //connection.setAutoCommit(false);
+            for (String id : args) {
+                try {
+                    stmt.setString(1, person);
+                    stmt.setString(2, id);
+                    stmt.addBatch();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            stmt.executeBatch();
+            //connection.commit();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+
+        }
+
+
+    }
+
+    public void insertRelations(String table, String personType, String person, String arg) {
+        String query = insertRelations.replaceFirst("tableName", table);
+        query = query.replaceFirst("personType", personType);
+        try {
+            stmt = connection.prepareStatement(query);
+            //connection.setAutoCommit(false);
+            try {
+                stmt.setString(1, person);
+                stmt.setString(2, arg);
+                stmt.addBatch();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+            stmt.executeBatch();
+            //connection.commit();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+
+        }
+
+
+    }
+
+    public void badInsert() {
         try {
             stmt.setString(1, "0");
             stmt.setString(2, null);

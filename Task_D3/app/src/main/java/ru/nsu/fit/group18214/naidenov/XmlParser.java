@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class XmlParser {
-    public static List<Person> persons = new ArrayList<>(20000);
+    public static List<Person> persons = new ArrayList<>(200);
 
-    public static void parse(long seek) throws FileNotFoundException, XMLStreamException {
+    public static void parse(Master master) throws FileNotFoundException, XMLStreamException {
 
 
         Person curPerson = null;
@@ -22,14 +22,7 @@ public class XmlParser {
 
         File file = new File("output.xml");
         FileInputStream source = new FileInputStream(file);
-        try {
-            source.skip(seek);
-        } catch (IOException ex){
-            System.out.println(ex.getMessage());
-            return;
-        }
         XMLInputFactory factory = XMLInputFactory.newInstance();
-
         XMLStreamReader reader =
                 factory.createXMLStreamReader(source);
         while (reader.hasNext()) {
@@ -54,6 +47,14 @@ public class XmlParser {
                     switch (contentTeg) {
                         case "person":
                             persons.add(curPerson);
+                            if (persons.size() == 200) {
+                                try {
+                                    master.addPersons(persons);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.getMessage());
+                                }
+                                persons.clear();
+                            }
                             break;
                         case "gender":
                             curPerson.setGender(tagContent);
@@ -98,7 +99,13 @@ public class XmlParser {
             }
 
         }
-        System.out.println("heh");
+        try {
+            master.addPersons(persons);
+        } catch (InterruptedException ex) {
+            System.out.println(ex.getMessage());
+        }
+        master.setXmlEnded(true);
+        System.out.println("Parser end");
 
     }
 }

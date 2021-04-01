@@ -5,15 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8529b49e-03fa-48e1-9907-76eed6de918a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3c2a5005-df01-4fc5-b9ca-4dbafcbf698b.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3c2a5005-df01-4fc5-b9ca-4dbafcbf698b/storage_v2/_src_/database/Task_D2.SCWYBw.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3c2a5005-df01-4fc5-b9ca-4dbafcbf698b/storage_v2/_src_/database/Task_D2.SCWYBw/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3c2a5005-df01-4fc5-b9ca-4dbafcbf698b/storage_v2/_src_/database/Task_D2.SCWYBw/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3c2a5005-df01-4fc5-b9ca-4dbafcbf698b/storage_v2/_src_/database/Task_D2.SCWYBw/schema/public.abK9xQ.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/DatabaseProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/DatabaseProvider.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Worker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/XmlParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/XmlParser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,6 +47,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="ProjectId" id="1qQfIU9IN1tKl4WImdqE6La1ANI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -86,15 +90,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -122,6 +124,15 @@
       <setting name="fixLineNumbers" value="false" />
       <method v="2" />
     </configuration>
+    <configuration default="true" type="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <option name="AUTO_RESTART" value="false" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
@@ -141,7 +152,10 @@
       <workItem from="1617029470026" duration="62000" />
       <workItem from="1617030789059" duration="2854000" />
       <workItem from="1617114958958" duration="2350000" />
-      <workItem from="1617182738755" duration="3233000" />
+      <workItem from="1617182738755" duration="3400000" />
+      <workItem from="1617251760924" duration="2904000" />
+      <workItem from="1617255460662" duration="5041000" />
+      <workItem from="1617264110230" duration="7321000" />
     </task>
     <servers />
   </component>
@@ -159,6 +173,37 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/DatabaseProvider.java</url>
+          <line>79</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/DatabaseProvider.java</url>
+          <line>101</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Main.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/ru/nsu/fit/group18214/naidenov/Main.java</url>
+          <line>11</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="GradleRunConfiguration">
+        <watch expression="((BatchUpdateException)ex).next" language="JAVA" custom="java.sql.BatchUpdateException" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

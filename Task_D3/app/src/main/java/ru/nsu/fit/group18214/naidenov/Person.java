@@ -87,5 +87,21 @@ public class Person {
     public String getGender() {
         return gender;
     }
+
+    public String getMother() {
+        return mother;
+    }
+
+    public String getFather() {
+        return father;
+    }
+
+    public String getHusband() {
+        return husband;
+    }
+
+    public String getWife() {
+        return wife;
+    }
 }
 
