@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace WebApplication.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    //[Route("api/[controller]")]
+    //[ApiController]
     public class AircraftsController : ControllerBase
     {
         DemoContext db;

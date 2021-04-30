@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,8 @@ namespace WebApplication
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddSwaggerGen();
+            services.AddMvc();
+            services.AddSwaggerGen();
             var con = "Host=localhost;Port=5432;Database=demo;Username=postgres;Password=123123";
             services.AddDbContext<DemoContext>(options => options.UseNpgsql(con));
             services.AddControllers();
@@ -31,18 +33,20 @@ namespace WebApplication
             {
                 app.UseDeveloperExceptionPage();
             }
-            //app.UseSwagger();
-            //app.UseSwaggerUI(c =>
-            //{
-            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-
-            //});
-           
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+
+                endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Query}/{action=Cities}/{id?}");
+                //endpoints.MapControllers();
                 /*endpoints.MapGet("/", async context =>
                 {
                     await context.Response.WriteAsync("Hello World!");
