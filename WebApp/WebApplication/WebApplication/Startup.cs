@@ -47,6 +47,8 @@ namespace WebApplication
                 name: "default",
                 pattern: "{controller=query}/{action=cities}/{id?}");*/
                 endpoints.MapControllers();
+                
+                //endpoints.MapSwagger("/swagger/v1/swagger.json");
                 /*endpoints.MapGet("/", async context =>
                 {
                     await context.Response.WriteAsync("Hello World!");
