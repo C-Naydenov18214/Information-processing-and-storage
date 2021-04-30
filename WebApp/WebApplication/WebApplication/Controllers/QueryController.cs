@@ -9,7 +9,7 @@ using WebApplication.Controllers.HelpClasses;
 
 namespace WebApplication.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("query/[action]")]
     //[ApiController]
     public class QueryController : ControllerBase
     {
@@ -20,8 +20,8 @@ namespace WebApplication.Controllers
             db = context;
         }
 
-        //[HttpGet]
-        [ActionName("Cities")]
+        [HttpGet]
+        [ActionName("cities")]
         public async Task<ActionResult<IEnumerable<string>>> Cities()
         {
             var res = from port in db.AirportsData
@@ -32,8 +32,8 @@ namespace WebApplication.Controllers
 
         }
 
-        //[HttpGet]
-        [ActionName("Airports")]
+        [HttpGet]
+        [ActionName("airports")]
         public async Task<ActionResult<IEnumerable<string>>> Airports()
         {
             var res = from port in db.AirportsData
@@ -44,11 +44,12 @@ namespace WebApplication.Controllers
 
         }
 
-        //[HttpGet]
-        [ActionName("CityAirports")]
-        public IEnumerable<OneToMany<string, string>> CityAirports()
+        [HttpGet]
+        [ActionName("cityAirports")]
+        public IEnumerable<OneToMany<string, string>> CityAirports([FromQuery] string city)
         {
             var res = from port in db.AirportsData
+                      where port.City == city
                       orderby port.AirportName
                       select new
                       {
@@ -72,8 +73,8 @@ namespace WebApplication.Controllers
             return dict.Values.ToList();
         }
 
-        //[HttpGet]
-        [ActionName("Inbound")]
+        [HttpGet]
+        [ActionName("inbound")]
         public IEnumerable<OneToMany<string, HelpClasses.Flight>> Inbound([FromQuery] string airport)
         {
             var res = from flight in db.Flights
@@ -97,8 +98,8 @@ namespace WebApplication.Controllers
             }
             return dict.Values.ToList();
         }
-        //[HttpGet]
-        [ActionName("Outbound")]
+        [HttpGet]
+        [ActionName("outbound")]
         public IEnumerable<OneToMany<string, HelpClasses.Flight>> Outbound([FromQuery] string airport)
         {
             var res = from flight in db.Flights
@@ -124,8 +125,8 @@ namespace WebApplication.Controllers
         }
 
 
-        //[HttpGet("{from}")]
-        [ActionName("Route")]
+        [HttpGet]
+        [ActionName("route")]
         public string Route([FromQuery] string from, [FromQuery] string to)
         {
             return $"from {from} to {to}";

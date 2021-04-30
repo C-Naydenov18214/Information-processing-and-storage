@@ -43,10 +43,10 @@ namespace WebApplication
             app.UseEndpoints(endpoints =>
             {
 
-                endpoints.MapControllerRoute(
+                /*endpoints.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Query}/{action=Cities}/{id?}");
-                //endpoints.MapControllers();
+                pattern: "{controller=query}/{action=cities}/{id?}");*/
+                endpoints.MapControllers();
                 /*endpoints.MapGet("/", async context =>
                 {
                     await context.Response.WriteAsync("Hello World!");
