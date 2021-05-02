@@ -23,6 +23,8 @@ namespace WebApplication
         public virtual DbSet<Booking> Bookings { get; set; }
         public virtual DbSet<Flight> Flights { get; set; }
         public virtual DbSet<FreeTicket> FreeTickets { get; set; }
+        public virtual DbSet<Price> Prices { get; set; }
+        public virtual DbSet<Price1> Prices1 { get; set; }
         public virtual DbSet<Seat> Seats { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
         public virtual DbSet<TicketFlight> TicketFlights { get; set; }
@@ -206,6 +208,37 @@ namespace WebApplication
                     .HasColumnName("fare_conditions");
 
                 entity.Property(e => e.Counter).HasColumnName("counter");
+            });
+
+            modelBuilder.Entity<Price>(entity =>
+            {
+                entity.HasKey(e => new { e.FlightId, e.FareConditions })
+                    .HasName("prices_pkey");
+
+                entity.ToTable("prices");
+
+                entity.Property(e => e.FlightId).HasColumnName("flight_id");
+
+                entity.Property(e => e.FareConditions)
+                    .HasMaxLength(10)
+                    .HasColumnName("fare_conditions");
+
+                entity.Property(e => e.Price1).HasColumnName("price");
+            });
+
+            modelBuilder.Entity<Price1>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("price");
+
+                entity.Property(e => e.FareConditions)
+                    .HasMaxLength(10)
+                    .HasColumnName("fare_conditions");
+
+                entity.Property(e => e.FlightId).HasColumnName("flight_id");
+
+                entity.Property(e => e.Max).HasColumnName("max");
             });
 
             modelBuilder.Entity<Seat>(entity =>

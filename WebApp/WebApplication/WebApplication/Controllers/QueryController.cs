@@ -169,15 +169,23 @@ namespace WebApplication.Controllers
         public async Task<ActionResult<TicketFlight>> Book(int route, string passengerName, string fareConditons)
         {
 
+            var prices = from t in db.Prices
+                         where t.FlightId == route
+                         where t.FareConditions == fareConditons
+                         select t.Price1;
+            
+
             var guid = Guid.NewGuid().ToString();
             var flight = from fl in db.Flights
                          where fl.FlightId == route
                          select fl;
 
+
+
             var booking = new Booking();
             booking.BookRef = new string(guid.Take(6).ToArray());
             booking.BookDate = DateTime.Now;
-            booking.TotalAmount = 6666;
+            booking.TotalAmount = prices.FirstOrDefault();
             var ticket = new Ticket();
             ticket.BookRef = booking.BookRef;
             ticket.PassengerName = passengerName;

@@ -75,6 +75,16 @@ CREATE TABLE free_tickets(
 	PRIMARY KEY (flight_id,fare_conditions)
 );
 
+
+CREATE VIEW price AS
+	SELECT DISTINCT flight_id, fare_conditions, MAX(amount) 
+	FROM ticket_flights
+	GROUP BY flight_id,fare_conditions;
+
+
+INSERT INTO prices(flight_id,fare_conditions,price)
+SELECT * FROM price
+
 INSERT INTO aircrafts_data (aircraft_code, model, range)
 VALUES 
 ('773',	 'Boeing 777-300', 	11100)              ,
