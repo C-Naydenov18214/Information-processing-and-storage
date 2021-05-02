@@ -127,73 +127,63 @@ namespace WebApplication.Controllers
 
         [HttpGet]
         [ActionName("route")]
-        public async Task<ActionResult<IEnumerable<KeyValuePair<string,int>>>> Route([FromQuery] string fromAirport, [FromQuery] string toAirport, [FromQuery] DateTime date,[FromQuery] string clazz, [FromQuery] int limit)
+        public async Task<ActionResult<IEnumerable<KeyValuePair<KeyValuePair<string, string>, int>>>> Route([FromQuery] string fromAirport, [FromQuery] string toAirport, [FromQuery] DateTime date, [FromQuery] string clazz, [FromQuery] int limit)
         {
+
+            //нужный рейс
             var flights = from route in db.Flights
                           where route.DepartureAirport == fromAirport
                           where route.ArrivalAirport == toAirport
                           where route.ScheduledDeparture.Date >= date && route.ScheduledDeparture.Date <= date.AddDays(1)
                           select route;
 
-            var ticketWithNecessaryClazz = from ticketFlight in db.TicketFlights
-                                           where ticketFlight.FareConditions == clazz
-                                           select ticketFlight;
-            var joined = from fl in flights
-                         join ticketFlight in ticketWithNecessaryClazz on fl.FlightId equals ticketFlight.FlightId
 
-                         select new
-                         {
-                             Flight = fl,
-                             TicketFlight = ticketFlight
-                         };
-            var grouped = from g in joined
-                          group g by g.Flight.FlightId;
-            var ticketsCounter = from g in grouped
-                         select new KeyValuePair<int,int>(g.Key, g.Count());
-
+            //нужнйы самолет
             var plainFlightPair = from plain in db.AircraftsData
-                         join flight in flights on plain.AircraftCode equals flight.AircraftCode
-                         select new
-                         {
-                            Flight = flight,
-                            Plain = plain
-                         };
-
-            var seats = from pair in plainFlightPair
-                                   join seates in db.Seats on pair.Plain.AircraftCode equals seates.AircraftCode
-                                   where seates.FareConditions == clazz
-                                   group seates by seates.AircraftCode;
-            var seatsCounter = from s in seats
-                               select new KeyValuePair<string,int>(s.Key, s.Count());
-
-
-            /*var r1 = from pair in plainFlightPair
-                     join tc in ticketsCounter on pair.Flight.FlightId equals tc.Key
-                     //where tc.Elements[0] > 0
-                     select pair.Flight.FlightId;*/
-            
-            
-            /*var res = from pair in plainFlightPair
-                      join sc in seatsCounter on pair.Plain.AircraftCode equals sc.Key
-                      join tc in ticketsCounter on pair.Flight.FlightId equals tc.Key
-                      where Math.Abs(sc.Value - tc.Value) > 0
-                      select pair.Flight.FlightId;*///new HelpClasses.Flight(pair.Flight.ScheduledArrival.ToString(), pair.Flight.ScheduledArrival.ToString(), pair.Flight.FlightNo, pair.Flight.DepartureAirport, pair.Flight.ArrivalAirport) ;
+                                  join flight in flights on plain.AircraftCode equals flight.AircraftCode
+                                  select new
+                                  {
+                                      Flight = flight,
+                                      Plain = plain
+                                  };
 
 
 
-            return await seatsCounter.ToListAsync();
-        
+            var tickets = from pair in plainFlightPair
+                          join t in db.FreeTickets on pair.Plain.AircraftCode equals t.AircraftCode
+                          where t.FareConditions == clazz
+                          where t.Counter > 0
+                          select new KeyValuePair<KeyValuePair<string, string>, int>(new KeyValuePair<string, string>(pair.Flight.FlightNo, pair.Plain.AircraftCode), t.Counter.Value);
+
+
+
+
+            return await tickets.ToListAsync();
+
         }
 
         [HttpGet]
         [ActionName("booking")]
 
-        public bool Book()
+        public string Book(int route,string passengerName)
         {
+
+            var flight = from fl in db.Flights
+                         where fl.FlightId == route
+                         select fl;
+
+            var booking = new Booking(DateTime.Now.ToString().Take(6).ToString(),DateTime.Now,6666);
+            var ticket = new Ticket();
+            ticket.BookRef = booking.BookRef;
+            ticket.PassengerName = passengerName;
+            ticket.PassengerId = DateTime.Now.ToString();
+            ticket.TicketNo = "0005432000987";
+            var ticketFlight = new TicketFlight();
+            ticketFlight.Amount = booking.TotalAmount;
 
 
             return true;
-        
+
         }
 
         [HttpGet]
@@ -209,10 +199,10 @@ namespace WebApplication.Controllers
             }
             else
             {
-                return null; 
+                return null;
             }
 
-        
+
         }
 
 

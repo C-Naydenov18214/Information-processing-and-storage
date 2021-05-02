@@ -67,6 +67,14 @@ CREATE TABLE tickets (
     contact_data jsonb 
 );
 
+
+CREATE TABLE free_tickets(
+	flight_id INT,
+	fare_conditions VARCHAR(10),
+	counter INT,
+	PRIMARY KEY (flight_id,fare_conditions)
+);
+
 INSERT INTO aircrafts_data (aircraft_code, model, range)
 VALUES 
 ('773',	 'Boeing 777-300', 	11100)              ,

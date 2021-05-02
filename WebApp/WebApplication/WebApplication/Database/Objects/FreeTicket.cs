@@ -5,11 +5,10 @@ using System.Collections.Generic;
 
 namespace WebApplication
 {
-    public partial class Seat
+    public partial class FreeTicket
     {
         public string AircraftCode { get; set; }
-        public string SeatNo { get; set; }
         public string FareConditions { get; set; }
-        public string IsFree { get; set; }
+        public int? Counter { get; set; }
     }
 }

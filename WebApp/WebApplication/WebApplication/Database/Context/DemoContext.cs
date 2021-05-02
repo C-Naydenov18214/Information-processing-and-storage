@@ -22,6 +22,7 @@ namespace WebApplication
         public virtual DbSet<BoardingPass> BoardingPasses { get; set; }
         public virtual DbSet<Booking> Bookings { get; set; }
         public virtual DbSet<Flight> Flights { get; set; }
+        public virtual DbSet<FreeTicket> FreeTickets { get; set; }
         public virtual DbSet<Seat> Seats { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
         public virtual DbSet<TicketFlight> TicketFlights { get; set; }
@@ -31,7 +32,7 @@ namespace WebApplication
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                //optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=demo;Username=postgres;Password=123123");
+                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=demo;Username=postgres;Password=123123");
             }
         }
 
@@ -185,6 +186,25 @@ namespace WebApplication
                     .HasColumnName("status");
             });
 
+            modelBuilder.Entity<FreeTicket>(entity =>
+            {
+                entity.HasKey(e => new { e.AircraftCode, e.FareConditions })
+                    .HasName("free_tickets_pkey");
+
+                entity.ToTable("free_tickets");
+
+                entity.Property(e => e.AircraftCode)
+                    .HasMaxLength(3)
+                    .HasColumnName("aircraft_code")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.FareConditions)
+                    .HasMaxLength(10)
+                    .HasColumnName("fare_conditions");
+
+                entity.Property(e => e.Counter).HasColumnName("counter");
+            });
+
             modelBuilder.Entity<Seat>(entity =>
             {
                 entity.HasNoKey();
@@ -201,6 +221,11 @@ namespace WebApplication
                     .IsRequired()
                     .HasMaxLength(10)
                     .HasColumnName("fare_conditions");
+
+                entity.Property(e => e.IsFree)
+                    .HasMaxLength(3)
+                    .HasColumnName("is_free")
+                    .HasDefaultValueSql("'yes'::character varying");
 
                 entity.Property(e => e.SeatNo)
                     .IsRequired()
