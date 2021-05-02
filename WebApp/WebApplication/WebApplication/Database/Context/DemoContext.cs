@@ -42,12 +42,12 @@ namespace WebApplication
 
             modelBuilder.Entity<Aircraft>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.AircraftCode)
+                    .HasName("aircrafts_pkey");
 
                 entity.ToTable("aircrafts_data");
 
                 entity.Property(e => e.AircraftCode)
-                    .IsRequired()
                     .HasMaxLength(3)
                     .HasColumnName("aircraft_code")
                     .IsFixedLength(true);
@@ -62,12 +62,12 @@ namespace WebApplication
 
             modelBuilder.Entity<Airport>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.AirportCode)
+                    .HasName("airports_data_pkey");
 
                 entity.ToTable("airports_data");
 
                 entity.Property(e => e.AirportCode)
-                    .IsRequired()
                     .HasMaxLength(3)
                     .HasColumnName("airport_code")
                     .IsFixedLength(true);
@@ -91,41 +91,41 @@ namespace WebApplication
 
             modelBuilder.Entity<BoardingPass>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => new { e.TicketNo, e.FlightId })
+                    .HasName("boarding_passes_pkey");
 
                 entity.ToTable("boarding_passes");
 
-                entity.Property(e => e.BoardingNo).HasColumnName("boarding_no");
+                entity.Property(e => e.TicketNo)
+                    .HasMaxLength(13)
+                    .HasColumnName("ticket_no")
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.FlightId).HasColumnName("flight_id");
+
+                entity.Property(e => e.BoardingNo).HasColumnName("boarding_no");
 
                 entity.Property(e => e.SeatNo)
                     .IsRequired()
                     .HasMaxLength(4)
                     .HasColumnName("seat_no");
-
-                entity.Property(e => e.TicketNo)
-                    .IsRequired()
-                    .HasMaxLength(13)
-                    .HasColumnName("ticket_no")
-                    .IsFixedLength(true);
             });
 
             modelBuilder.Entity<Booking>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.BookRef)
+                    .HasName("bookings_pkey");
 
                 entity.ToTable("bookings");
+
+                entity.Property(e => e.BookRef)
+                    .HasMaxLength(6)
+                    .HasColumnName("book_ref")
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.BookDate)
                     .HasColumnType("timestamp with time zone")
                     .HasColumnName("book_date");
-
-                entity.Property(e => e.BookRef)
-                    .IsRequired()
-                    .HasMaxLength(6)
-                    .HasColumnName("book_ref")
-                    .IsFixedLength(true);
 
                 entity.Property(e => e.TotalAmount)
                     .HasPrecision(10, 2)
@@ -134,9 +134,14 @@ namespace WebApplication
 
             modelBuilder.Entity<Flight>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("flights");
+
+                entity.HasIndex(e => new { e.FlightNo, e.ScheduledDeparture }, "flights_flight_no_scheduled_departure_key")
+                    .IsUnique();
+
+                entity.Property(e => e.FlightId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("flight_id");
 
                 entity.Property(e => e.ActualArrival)
                     .HasColumnType("timestamp with time zone")
@@ -163,8 +168,6 @@ namespace WebApplication
                     .HasMaxLength(3)
                     .HasColumnName("departure_airport")
                     .IsFixedLength(true);
-
-                entity.Property(e => e.FlightId).HasColumnName("flight_id");
 
                 entity.Property(e => e.FlightNo)
                     .IsRequired()
@@ -207,15 +210,19 @@ namespace WebApplication
 
             modelBuilder.Entity<Seat>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => new { e.AircraftCode, e.SeatNo })
+                    .HasName("seats_pkey");
 
                 entity.ToTable("seats");
 
                 entity.Property(e => e.AircraftCode)
-                    .IsRequired()
                     .HasMaxLength(3)
                     .HasColumnName("aircraft_code")
                     .IsFixedLength(true);
+
+                entity.Property(e => e.SeatNo)
+                    .HasMaxLength(4)
+                    .HasColumnName("seat_no");
 
                 entity.Property(e => e.FareConditions)
                     .IsRequired()
@@ -226,18 +233,19 @@ namespace WebApplication
                     .HasMaxLength(3)
                     .HasColumnName("is_free")
                     .HasDefaultValueSql("'yes'::character varying");
-
-                entity.Property(e => e.SeatNo)
-                    .IsRequired()
-                    .HasMaxLength(4)
-                    .HasColumnName("seat_no");
             });
 
             modelBuilder.Entity<Ticket>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.TicketNo)
+                    .HasName("tickets_pkey");
 
                 entity.ToTable("tickets");
+
+                entity.Property(e => e.TicketNo)
+                    .HasMaxLength(13)
+                    .HasColumnName("ticket_no")
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.BookRef)
                     .IsRequired()
@@ -255,19 +263,21 @@ namespace WebApplication
                     .HasColumnName("passenger_id");
 
                 entity.Property(e => e.PassengerName).HasColumnName("passenger_name");
-
-                entity.Property(e => e.TicketNo)
-                    .IsRequired()
-                    .HasMaxLength(13)
-                    .HasColumnName("ticket_no")
-                    .IsFixedLength(true);
             });
 
             modelBuilder.Entity<TicketFlight>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => new { e.TicketNo, e.FlightId })
+                    .HasName("ticket_flights_pkey");
 
                 entity.ToTable("ticket_flights");
+
+                entity.Property(e => e.TicketNo)
+                    .HasMaxLength(13)
+                    .HasColumnName("ticket_no")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.FlightId).HasColumnName("flight_id");
 
                 entity.Property(e => e.Amount)
                     .HasPrecision(10, 2)
@@ -277,14 +287,6 @@ namespace WebApplication
                     .IsRequired()
                     .HasMaxLength(10)
                     .HasColumnName("fare_conditions");
-
-                entity.Property(e => e.FlightId).HasColumnName("flight_id");
-
-                entity.Property(e => e.TicketNo)
-                    .IsRequired()
-                    .HasMaxLength(13)
-                    .HasColumnName("ticket_no")
-                    .IsFixedLength(true);
             });
 
             OnModelCreatingPartial(modelBuilder);

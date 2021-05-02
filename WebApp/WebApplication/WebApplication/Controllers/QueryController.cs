@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using WebApplication.Controllers.HelpClasses;
 
@@ -165,43 +166,79 @@ namespace WebApplication.Controllers
         [HttpGet]
         [ActionName("booking")]
 
-        public string Book(int route,string passengerName)
+        public async Task<ActionResult<TicketFlight>> Book(int route, string passengerName, string fareConditons)
         {
 
+            var guid = Guid.NewGuid().ToString();
             var flight = from fl in db.Flights
                          where fl.FlightId == route
                          select fl;
 
-            var booking = new Booking(DateTime.Now.ToString().Take(6).ToString(),DateTime.Now,6666);
+            var booking = new Booking();
+            booking.BookRef = new string(guid.Take(6).ToArray());
+            booking.BookDate = DateTime.Now;
+            booking.TotalAmount = 6666;
             var ticket = new Ticket();
             ticket.BookRef = booking.BookRef;
             ticket.PassengerName = passengerName;
-            ticket.PassengerId = DateTime.Now.ToString();
-            ticket.TicketNo = "0005432000987";
+            ticket.PassengerId = new string(guid.Take(10).ToArray());
+            ticket.TicketNo = new string(guid.Take(13).ToArray());
             var ticketFlight = new TicketFlight();
             ticketFlight.Amount = booking.TotalAmount;
+            ticketFlight.TicketNo = ticket.TicketNo;
+            ticketFlight.FlightId = route;
+            ticketFlight.FareConditions = fareConditons;
+            
+            db.Bookings.Add(booking);
+            db.Tickets.Add(ticket);
+            db.TicketFlights.Add(ticketFlight);
+            UpdateTickets(route, fareConditons);
+            await db.SaveChangesAsync();
+            
 
-
-            return true;
+            return Ok(ticketFlight);
 
         }
 
-        [HttpGet]
-        [ActionName("check")]
-        public async Task<ActionResult<IEnumerable<Ticket>>> Check(string passengerID)
+        private void UpdateTickets(int id, string conditions)
         {
-            var res = from ticket in db.Tickets
-                      where ticket.PassengerId == passengerID
-                      select ticket;
-            if (res != null)
-            {
-                return await res.ToListAsync();
-            }
-            else
-            {
-                return null;
-            }
 
+            var plain = from r in db.Flights
+                        where r.FlightId == id
+                        select r.AircraftCode;
+            var t = from p in db.FreeTickets
+                    where p.AircraftCode == plain.FirstOrDefault()
+                    where p.FareConditions == conditions
+                    select p;
+            var ticket = t.FirstOrDefault();
+            ticket.Counter--;
+        }
+
+        [HttpGet]
+        [ActionName("check-in")]
+        public async Task<ActionResult<BoardingPass>> Check(int flightID, string ticketNo)
+        {
+            var random = new Random();
+            
+            var boardingPass = new BoardingPass();
+            boardingPass.TicketNo = ticketNo;
+            boardingPass.FlightId = flightID;
+            boardingPass.BoardingNo = random.Next(0,Int16.MaxValue);
+            var conditions = from t in db.TicketFlights
+                             where t.TicketNo == ticketNo
+                             where t.FlightId == flightID
+                             select t.FareConditions;
+
+            var seats = from s in db.Seats
+                       where s.IsFree == "yes"
+                       where s.FareConditions == conditions.FirstOrDefault()
+                       select s;
+            var seat = seats.FirstOrDefault();
+            boardingPass.SeatNo = seat.SeatNo;
+            db.BoardingPasses.Add(boardingPass);
+            seat.IsFree = "no";
+            await db.SaveChangesAsync();
+            return boardingPass;
 
         }
 
