@@ -85,6 +85,15 @@ CREATE VIEW price AS
 INSERT INTO prices(flight_id,fare_conditions,price)
 SELECT * FROM price
 
+INSERT INTO prices(flight_id,fare_conditions,price)
+VALUES
+(11847,'Economy',9950),
+(11847,'Business',16000),
+(25382,'Economy',12950),
+(25382,'Business',17000),
+(19807,'Economy',11050),
+(19807,'Business',17000);
+
 INSERT INTO aircrafts_data (aircraft_code, model, range)
 VALUES 
 ('773',	 'Boeing 777-300', 	11100)              ,

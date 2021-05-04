@@ -128,7 +128,7 @@ namespace WebApplication.Controllers
 
         [HttpGet]
         [ActionName("route")]
-        public async Task<ActionResult<IEnumerable<KeyValuePair<KeyValuePair<string, string>, int>>>> Route([FromQuery] string fromAirport, [FromQuery] string toAirport, [FromQuery] DateTime date, [FromQuery] string clazz, [FromQuery] int limit)
+        public async Task<ActionResult<IEnumerable<KeyValuePair<KeyValuePair<string, string>, int>>>> Route([FromQuery] string fromAirport, [FromQuery] string toAirport, [FromQuery] DateTime date, [FromQuery] string clazz)
         {
 
             //нужный рейс
@@ -165,7 +165,7 @@ namespace WebApplication.Controllers
 
         [HttpGet]
         [ActionName("find-path")]
-        public List<List<KeyValuePair<KeyValuePair<string, string>, string>>> FindPath([FromQuery] string fromAirport, [FromQuery] string toAirport, [FromQuery] DateTime date, [FromQuery] string clazz = "Economy", [FromQuery] int limit = 0)
+        public List<List<KeyValuePair<KeyValuePair<string, string>, string>>> FindPath([FromQuery] string fromAirport, [FromQuery] string toAirport, [FromQuery] DateTime date, [FromQuery] string clazz = null, [FromQuery] int limit = 0)
         {
 
             var curState = from src in db.Flights
@@ -178,7 +178,6 @@ namespace WebApplication.Controllers
 
                            };//new OneToMany<string, int>($"{fromPoint}->{toPoint}", src.FlightId);
 
-            var oldState = curState;
             limit--;
             while (limit > -1)
             {
@@ -191,23 +190,12 @@ namespace WebApplication.Controllers
                            };
                 limit--;
             }
-            //var sep = new char[] { '/' };
-            //var r = from c in curState
-            //        select new
-            //        {
-            //            From = c.From,
-            //            Path = c.Path.Split(sep, StringSplitOptions.None),
-            //        };
-
-            //var res = from rr in r
-            //          where rr.Path[rr.Path.Length - 1] == toAirport
-            //          select rr.Path;
-
             var res = from c in curState
                       where c.From == toAirport
                       select c.Path;
 
             var ls = res.ToList();
+ 
             var routes = ls.Select(e => e.Split('/'));
             List<List<KeyValuePair<KeyValuePair<string, string>, string>>> result = new List<List<KeyValuePair<KeyValuePair<string, string>, string>>>();
             var empty = false;
@@ -224,7 +212,7 @@ namespace WebApplication.Controllers
                     }
                     else
                     {
-                        cur.Add(t.FirstOrDefault());
+                        cur.AddRange(t);
                     }
                 }
                 if (!empty)
@@ -233,12 +221,13 @@ namespace WebApplication.Controllers
                 }
                 empty = false;
             }
+            
             return result;
 
         }
         [HttpGet]
         [ActionName("show-path")]
-        public IEnumerable<string> ShowPath([FromQuery] string fromAirport, [FromQuery] string toAirport, [FromQuery] DateTime date, [FromQuery] string clazz = "Economy", [FromQuery] int limit = 0)
+        public IEnumerable<string> ShowPath([FromQuery] string fromAirport, [FromQuery] string toAirport, [FromQuery] DateTime date, [FromQuery] string clazz = null, [FromQuery] int limit = 0)
         {
 
             var curState = from src in db.Flights
@@ -264,18 +253,6 @@ namespace WebApplication.Controllers
                            };
                 limit--;
             }
-            //var sep = new char[] { '/' };
-            //var r = from c in curState
-            //        select new
-            //        {
-            //            From = c.From,
-            //            Path = c.Path.Split(sep, StringSplitOptions.None),
-            //        };
-
-            //var res = from rr in r
-            //          where rr.Path[rr.Path.Length - 1] == toAirport
-            //          select rr.Path;
-
             var res = from c in curState
                       where c.From == toAirport
                       select c.Path;
@@ -284,7 +261,7 @@ namespace WebApplication.Controllers
         }
 
 
-        private IEnumerable<KeyValuePair<KeyValuePair<string, string>, string>> GetTicket(int flightID, string clazz)
+        private IEnumerable<KeyValuePair<KeyValuePair<string, string>, string>> GetTicket(int flightID,string clazz = null)
         {
             var flights = from route in db.Flights
                           where route.FlightId == flightID
@@ -301,17 +278,76 @@ namespace WebApplication.Controllers
                                   };
 
 
+            if (clazz == null)
+            {
+                var tickets = from pair in plainFlightPair
+                              join t in db.FreeTickets on pair.Plain.AircraftCode equals t.AircraftCode
+                              where t.Counter > 0
+                              select new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>($"Flight ID:{pair.Flight.FlightId} Flight No:{pair.Flight.FlightNo}", $"Aircraft code: {pair.Plain.AircraftCode}"), $"Free {t.FareConditions} seats {t.Counter.Value}");
+                return tickets;
+            }
+            else
+            {
+                var tickets = from pair in plainFlightPair
+                              join t in db.FreeTickets on pair.Plain.AircraftCode equals t.AircraftCode
+                              where t.FareConditions == clazz
+                              where t.Counter > 0
+                              select new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>($"Flight ID:{pair.Flight.FlightId} Flight №{pair.Flight.FlightNo}", $"Aircraft code: {pair.Plain.AircraftCode}"), $"Free {t.FareConditions} seats {t.Counter.Value}");
+                return tickets;
 
-            var tickets = from pair in plainFlightPair
-                          join t in db.FreeTickets on pair.Plain.AircraftCode equals t.AircraftCode
-                          where t.FareConditions == clazz
-                          where t.Counter > 0
-                          select new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>($"Flight ID:{pair.Flight.FlightId} Flight №{pair.Flight.FlightNo}", $"Aircraft code: {pair.Plain.AircraftCode}"), $"Free {clazz.ToLower()} seats {t.Counter.Value}");
-            return tickets;
+            }
 
 
         }
+        
+        
+        [HttpGet]
+        [ActionName("book-all")]
+        public async Task<ActionResult<IEnumerable<TicketFlight>>> BookAll(string routes,string passengerName, string fareConditons)
+        {
+            List<TicketFlight> tickets = new List<TicketFlight>();
+            var flights = routes.Split('/');
+            var booking = new Booking();
+            var bookGuid = Guid.NewGuid().ToString();
+            booking.BookDate = DateTime.Now;
+            booking.BookRef = new string(bookGuid.Take(6).ToArray());
+            foreach (var f in flights)
+            {
+                var route = Int32.Parse(f);
 
+                var prices = from t in db.Prices
+                             where t.FlightId == route
+                             where t.FareConditions == fareConditons
+                             select t.Price1;
+
+
+                var guid = Guid.NewGuid().ToString();
+                var flight = from fl in db.Flights
+                             where fl.FlightId == route
+                             select fl;
+                booking.TotalAmount += prices.FirstOrDefault();
+                var ticket = new Ticket();
+                ticket.BookRef = booking.BookRef;
+                ticket.PassengerName = passengerName;
+                ticket.PassengerId = new string(guid.Take(10).ToArray());
+                ticket.TicketNo = new string(guid.Take(13).ToArray());
+                var ticketFlight = new TicketFlight();
+                ticketFlight.Amount = prices.FirstOrDefault();
+                ticketFlight.TicketNo = ticket.TicketNo;
+                ticketFlight.FlightId = route;
+                ticketFlight.FareConditions = fareConditons;
+
+                db.Tickets.Add(ticket);
+                db.TicketFlights.Add(ticketFlight);
+                UpdateTickets(route, fareConditons);
+                tickets.Add(ticketFlight);
+                
+            }
+            db.Bookings.Add(booking);
+            await db.SaveChangesAsync();
+            return Ok(tickets);
+
+        }
         [HttpGet]
         [ActionName("booking")]
 
